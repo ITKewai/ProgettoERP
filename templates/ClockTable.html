@@ -6,14 +6,14 @@
 
 <div class="table-responsive">
 
-    <table class="table table-striped" id="registroassicurazionesanitaria" width="100%" cellspacing="0">
+    <table class="table table-striped" id="clocktable" width="100%" cellspacing="0">
     <thead>
       <tr>
-        <th style="width:10%">id</th>
+<!--        <th style="width:10%">id</th>-->
         <th style="width:10%">user_id</th>
         <th style="width:10%">code</th>
-        <th style="width:10%">clockin</th>
-        <th style="width:30%">clockout</th>
+        <th style="width:20%">clockin</th>
+        <th style="width:20%">clockout</th>
         <th style="width:10%">moreinfo</th>
         <th style="width:10%">IP</th>
       </tr>
@@ -31,19 +31,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 <script>
 $(document).ready(function () {
-    var the_start_date = 'N/A'
-    var the_end_date = 'N/A'
+    var the_start_date = ''
+    var the_end_date = ''
 
-    ClockTable = $('#registroassicurazionesanitaria').DataTable({
+    ClockTable = $('#clocktable').DataTable({
         ajax: {
-            url: '/api/RegistroAssicurazioneSanitaria',
-            data: {start_date: the_start_date, end_date: the_end_date}
+            url: '/api/ClockTable',
+            data: function(d){
+                d.start_date =  the_start_date;
+                d.end_date =  the_end_date;
+            }
         },
         serverSide: true,
         processing: true,
         language: {url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/it-IT.json'},
         columns: [
-            {data: 'id', orderable: true},
+<!--            {data: 'id', orderable: true},-->
             {data: 'user_id', orderable: true},
             {data: 'code', orderable: true},
             {data: 'clockin', orderable: true},
@@ -55,14 +58,13 @@ $(document).ready(function () {
 
     document.getElementById("start_date").onchange = function(){
         the_start_date = this.value;
-        console.log(the_start_date);
-<!--        $('#registroassicurazionesanitaria').DataTable().destroy();-->
-    };
+        ClockTable.ajax.reload(); /* Ricarica quando clicca una data */
 
+    };
 
     document.getElementById("end_date").onchange = function(){
         the_end_date = this.value;
-        console.log(the_end_date);
+        ClockTable.ajax.reload(); /* Ricarica quando clicca una data */
     };
 
 });
