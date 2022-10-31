@@ -229,7 +229,9 @@ def ClockOutForm():
 @app.route('/api/RegistroAssicurazioneSanitaria')
 def TableRegistroAssicurazioneSanitaria():
     query = Clocking.query
-
+    print(request.args.get('start_date'))
+    # print(request.args)
+    print(request.args.get('end_date'))
     # search filter
     search = request.args.get('search[value]')
     if search:

@@ -31,9 +31,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 <script>
 $(document).ready(function () {
+        var the_start_date = ''
+        var the_end_date = ''
 
         $('#registroassicurazionesanitaria').DataTable({
-            ajax: '/api/RegistroAssicurazioneSanitaria',
+            ajax: {
+                url: '/api/RegistroAssicurazioneSanitaria',
+                data: {start_date: the_start_date, end_date: the_end_date}
+            },
             serverSide: true,
             processing: true,
             language: {url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/it-IT.json'},
@@ -48,15 +53,15 @@ $(document).ready(function () {
             ],
         });
 
- document.getElementById("start_date").onchange = function(){
-    console.log(this.value);
+    document.getElementById("start_date").onchange = function(){
+        the_start_date = this.value;
+        console.log(the_start_date);
+    };
 
-
-};
-
-
-
-
+    document.getElementById("end_date").onchange = function(){
+        the_end_date = this.value;
+        console.log(the_end_date);
+    };
 
 });
 </script>
