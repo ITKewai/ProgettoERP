@@ -1,0 +1,33 @@
+<h1>CHECK IN</h1>
+{% if WorkCode.query.first() %}
+<form id='ClockInForm' action="/api/ClockInForm" method="post">
+    <h3>Codice Commessa</h3>
+    <select name='Commessa'>
+        {% for x in WorkCode.query.all() %}
+            <option value={{x.id}}>{{x.description}}</option>
+        {% endfor %}
+    </select>
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <label class="form-label" for="InputForm1">Note</label>-->
+<!--    <div class="form-text" >Es. Prima rata pagata da Mario</div>-->
+<!--    <input class="form-control" id="InputForm1" name="InputOggetto1" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+
+<!--    <label class="form-label" for="InputForm2">Tipo Immobile</label>-->
+<!--    <div class="form-text">Es. Attico vista mare</div>-->
+<!--    <input class="form-control" id="InputForm2" name="InputOggetto2" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+
+<!--    <label class="form-label" for="InputForm3">Civico</label>-->
+<!--    <div class="form-text">Es. 123F</div>-->
+<!--    <input class="form-control" id="InputForm3" name="InputOggetto3" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+
+<!--    <label class="form-label" for="InputForm4">Prezzo</label>-->
+<!--    <div class="form-text">Es. 10.000€</div>-->
+<!--    <input class="form-control" id="InputForm4" name="InputOggetto4" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+
+<!--    <br/>-->
+    <button class="btn btn-primary" type="submit">Registra</button>
+</form>
+{% else %}
+<h1>Nessun Codice Disponibile</h1>
+{% endif %}

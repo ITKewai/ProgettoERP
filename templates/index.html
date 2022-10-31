@@ -1,0 +1,10 @@
+<form id='ClockInForm' action="/api/ClockInForm" method="post">
+  <h3>2. Which Studio?</h3>
+  <select name='studio'>
+      {% for x,y in LeOpZioNi.items() %}
+        <option value={{x}}>{{y}}</option>
+      {% endfor %}
+  </select>
+
+<input type='submit' value='submit'>
+ </form>
