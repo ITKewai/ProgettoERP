@@ -225,25 +225,69 @@ def ClockOutForm():
     return redirect(url_for('index'))
 
 
-@app.route("/api/RegistroAssicurazioneSanitaria", methods=["POST", "GET"])
-@app.route('/api/RegistroAssicurazioneSanitaria')
-def TableRegistroAssicurazioneSanitaria():
+@app.route("/api/ClockTable", methods=["POST", "GET"])
+@app.route('/api/ClockTable')
+def ClockTable():
     query = Clocking.query
-    print(request.args.get('start_date'))
-    # print(request.args)
-    print(request.args.get('end_date'))
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
     # search filter
     search = request.args.get('search[value]')
     if search:
-        query = query.filter(db.or_(
-            Clocking.id.like(f'%{search}%'),
-            Clocking.user_id.like(f'%{search}%'),
-            Clocking.code.like(f'%{search}%'),
-            Clocking.clockin.like(f'%{search}%'),
-            Clocking.clockout.like(f'%{search}%'),
-            Clocking.moreinfo.like(f'%{search}%'),
-            Clocking.IP.like(f'%{search}%'),
-        ))
+        if start_date == '' and end_date == '':  # NO START DATE + NO END DATE
+            query = query.filter(db.or_(
+                Clocking.id.like(f'%{search}%'),
+                Clocking.user_id.like(f'%{search}%'),
+                Clocking.code.like(f'%{search}%'),
+                Clocking.clockin.like(f'%{search}%'),
+                Clocking.clockout.like(f'%{search}%'),
+                Clocking.moreinfo.like(f'%{search}%'),
+                Clocking.IP.like(f'%{search}%'),
+            ))
+        elif start_date != '' and end_date == '':  # START DATE + NO END DATE
+            query = query.filter(
+                db.and_(
+                    db.or_(
+                        Clocking.id.like(f'%{search}%'),
+                        Clocking.user_id.like(f'%{search}%'),
+                        Clocking.code.like(f'%{search}%'),
+                        Clocking.clockin.like(f'%{search}%'),
+                        Clocking.clockout.like(f'%{search}%'),
+                        Clocking.moreinfo.like(f'%{search}%'),
+                        Clocking.IP.like(f'%{search}%'),
+                    ),
+                    Clocking.clockin.between(datetime.strptime(start_date, '%Y-%m-%d'), datetime.now())
+                )
+            )
+        elif start_date == '' and end_date != '':  # START DATE + NO END DATE
+            query = query.filter(
+                db.and_(
+                    db.or_(
+                        Clocking.id.like(f'%{search}%'),
+                        Clocking.user_id.like(f'%{search}%'),
+                        Clocking.code.like(f'%{search}%'),
+                        Clocking.clockin.like(f'%{search}%'),
+                        Clocking.clockout.like(f'%{search}%'),
+                        Clocking.moreinfo.like(f'%{search}%'),
+                        Clocking.IP.like(f'%{search}%'),
+                    ),
+                    Clocking.clockin.between(datetime.strptime('1970-01-01', '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
+                )
+            )
+        else:  # START DATE + END DATE
+            query = query.filter(
+                    Clocking.clockin.between(datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
+            )
+    else:
+        if start_date == '' and end_date == '':  # NO START DATE + NO END DATE
+            pass
+        elif start_date != '' and end_date == '':  # START DATE + NO END DATE
+            query = query.filter(Clocking.clockin.between(datetime.strptime(start_date, '%Y-%m-%d'), datetime.now()))
+        elif start_date == '' and end_date != '':  # START DATE + NO END DATE
+            query = query.filter(Clocking.clockin.between(datetime.strptime('1970-01-01', '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d')))
+        else:  # START DATE + END DATE
+            query = query.filter(Clocking.clockin.between(datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d')))
+
     total_filtered = query.count()
 
     # sorting
@@ -285,6 +329,7 @@ def TableRegistroAssicurazioneSanitaria():
         'recordsTotal': Clocking.query.count(),
         'draw': request.args.get('draw', type=int),
     }
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
