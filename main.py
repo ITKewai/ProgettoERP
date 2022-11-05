@@ -140,17 +140,40 @@ def inject_global_vars():
 @app.route('/')
 @login_required
 def index():
-    print()
-    # return render_template('ClockInForm.html')
+    return f"""
+    <a href="{url_for('WebClockTable')}"> ClockTable</a><br>
+    <a href="{url_for('WebClockInForm')}">ClockInForm </a><br>
+    <a href="{url_for('WebClockOutForm')}"> ClockOutForm</a><br>
+    <a href="{url_for('WebResoconto')}">Resoconto </a><br>
+    """
+
+@app.route('/a')
+@login_required
+def WebClockTable():
     return render_template('ClockTable.html')
     # return render_template('FormTutto.html')
 
 
-@app.route('/a')
+@app.route('/b')
 @login_required
-def indexx():
+def WebClockInForm():
+    print()
+    return render_template('ClockInForm.html')
+    # return render_template('FormTutto.html')
+
+
+@app.route('/c')
+@login_required
+def WebClockOutForm():
     print()
     return render_template('ClockOutForm.html')
+    # return render_template('FormTutto.html')
+
+
+@app.route('/d')
+@login_required
+def WebResoconto():
+    return render_template('Resoconto.html')
     # return render_template('FormTutto.html')
 
 
@@ -219,8 +242,8 @@ def ClockOutForm():
     # data.moreinfo = '' if "Commessa" not in request.form.keys() else request.form["Commessa"]
     db.session.commit()
     #
-    # Users.query.filter_by(id=current_user.id).update(dict(workingon=''))
-    # db.session.commit()
+    Users.query.filter_by(id=current_user.id).update(dict(workingon=''))
+    db.session.commit()
 
     return redirect(url_for('index'))
 
