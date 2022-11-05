@@ -1,0 +1,48 @@
+
+
+
+{% if WorkCode.query.first() %}
+<!--<form id='ClockInForm' action="/api/Resoconto" method="post">-->
+<!--    <h3>Codice Commessa</h3>-->
+    <select name='Commessa'>
+        {% for x in WorkCode.query.all() %}
+            <option value={{x.id}}>{{x.description}}</option>
+        {% endfor %}
+    </select>
+    <label for="start_date">Da:</label>
+    <input type="date" id="start_date" name="trip-start">
+
+    <label for="end_date">A:</label>
+    <input type="date" id="end_date" name="trip-end">
+
+
+<div class="table-responsive">
+
+    <table class="table table-striped" id="clocktable" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+<!--        <th style="width:10%">id</th>-->
+        <th style="width:10%">user_id</th>
+        <th style="width:10%">code</th>
+        <th style="width:20%">clockin</th>
+        <th style="width:20%">clockout</th>
+        <th style="width:10%">moreinfo</th>
+        <th style="width:10%">IP</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
+</div>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<script>
+
+{% else %}
+<h1>Nessun Codice Disponibile</h1>
+{% endif %}
