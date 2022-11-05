@@ -1,28 +1,33 @@
-<h1>CHECK IN</h1>
+<h1>CLOCK OUT</h1>
 {% if WorkCode.query.first() %}
-<form id='ClockOutForm' action="/api/ClockOutForm" method="post">
-    <h3>Stai choudendo la commessa: {{current_user.workingon}}</h3>
+    {% if current_user.workingon %}
+        {{current_user.workingon}}
+        <form id='ClockOutForm' action="/api/ClockOutForm" method="post">
+            <h3>Stai choudendo la commessa: {{current_user.workingon}}</h3>
 
-<!--    <br/>-->
-<!--    <br/>-->
-    <div class="form-text" >Note supplementari</div>
-    <input class="form-control" id="InputForm1" name="InputOggetto1" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off">
+        <!--    <br/>-->
+        <!--    <br/>-->
+            <div class="form-text" >Note supplementari</div>
+            <input class="form-control" id="InputForm1" name="InputOggetto1" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off">
 
-<!--    <label class="form-label" for="InputForm2">Tipo Immobile</label>-->
-<!--    <div class="form-text">Es. Attico vista mare</div>-->
-<!--    <input class="form-control" id="InputForm2" name="InputOggetto2" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+        <!--    <label class="form-label" for="InputForm2">Tipo Immobile</label>-->
+        <!--    <div class="form-text">Es. Attico vista mare</div>-->
+        <!--    <input class="form-control" id="InputForm2" name="InputOggetto2" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
 
-<!--    <label class="form-label" for="InputForm3">Civico</label>-->
-<!--    <div class="form-text">Es. 123F</div>-->
-<!--    <input class="form-control" id="InputForm3" name="InputOggetto3" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+        <!--    <label class="form-label" for="InputForm3">Civico</label>-->
+        <!--    <div class="form-text">Es. 123F</div>-->
+        <!--    <input class="form-control" id="InputForm3" name="InputOggetto3" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
 
-<!--    <label class="form-label" for="InputForm4">Prezzo</label>-->
-<!--    <div class="form-text">Es. 10.000€</div>-->
-<!--    <input class="form-control" id="InputForm4" name="InputOggetto4" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
+        <!--    <label class="form-label" for="InputForm4">Prezzo</label>-->
+        <!--    <div class="form-text">Es. 10.000€</div>-->
+        <!--    <input class="form-control" id="InputForm4" name="InputOggetto4" type="text" maxlength="256" aria-describedby="basic-addon1" autocomplete="off" required>-->
 
-<!--    <br/>-->
-    <button class="btn btn-primary" type="submit">Registra</button>
-</form>
+        <!--    <br/>-->
+            <button class="btn btn-primary" type="submit">Registra</button>
+        </form>
+    {% else %}
+        Non hai niente da chiudere
+    {% endif %}
 {% else %}
 <h1>Nessun Codice Disponibile</h1>
 {% endif %}
