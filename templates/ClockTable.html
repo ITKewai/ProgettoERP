@@ -10,12 +10,12 @@
     <thead>
       <tr>
 <!--        <th style="width:10%">id</th>-->
-        <th style="width:10%">user_id</th>
-        <th style="width:10%">code</th>
-        <th style="width:20%">clockin</th>
-        <th style="width:20%">clockout</th>
-        <th style="width:10%">moreinfo</th>
-        <th style="width:10%">IP</th>
+        <th style="width:5%">user_id</th>
+        <th style="width:5%">code</th>
+        <th style="width:10%">clockin</th>
+        <th style="width:10%">clockout</th>
+        <th style="width:40%">moreinfo</th>
+<!--        <th style="width:10%">IP</th>-->
       </tr>
     </thead>
     <tbody>
@@ -33,7 +33,11 @@
 $(document).ready(function () {
     var the_start_date = ''
     var the_end_date = ''
-
+    var the_code = {
+    {% for x in WorkCode.query.all() %}
+       {{x.id}}:"{{x.description}}",
+    {% endfor %}
+    }
     ClockTable = $('#clocktable').DataTable({
         ajax: {
             url: '/api/ClockTable',
@@ -48,11 +52,11 @@ $(document).ready(function () {
         columns: [
 <!--            {data: 'id', orderable: true},-->
             {data: 'user_id', orderable: true},
-            {data: 'code', orderable: true},
+            {data: 'code', orderable: true, render: function (data) {return the_code[data]}},
             {data: 'clockin', orderable: true},
             {data: 'clockout', orderable: true},
             {data: 'moreinfo', orderable: true},
-            {data: 'IP', orderable: true},
+<!--            {data: 'IP', orderable: true},-->
         ],
     });
 
